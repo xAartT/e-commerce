@@ -1,4 +1,4 @@
-import { pool } from "./db.js";
+import { pool } from "../config/database";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
