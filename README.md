@@ -21,7 +21,7 @@ API RESTful para aplicação de e-commerce com autenticação, gerenciamento de 
 ### 1. Clone o repositório
 
 ```bash
-git clone <seu-repo>
+git clone <repo>
 cd ecommerce-backend
 ```
 
@@ -378,28 +378,6 @@ ecommerce-backend/
 - **orders**: Pedidos realizados
 - **order_items**: Itens de cada pedido
 
-## 🚀 Deploy
-
-### Opções recomendadas:
-
-**Backend:**
-- Railway
-- Render
-- Heroku
-
-**Banco de Dados:**
-- Neon (PostgreSQL serverless)
-- Supabase
-- Railway (com PostgreSQL)
-
-### Variáveis de ambiente necessárias:
-
-```env
-PORT=5000
-DATABASE_URL=postgresql://...
-JWT_SECRET=...
-NODE_ENV=production
-```
 
 ## 📝 Notas
 

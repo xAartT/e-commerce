@@ -1,5 +1,3 @@
-// src/utils/queries.js
-
 const userQueries = {
   create: `
     INSERT INTO users (email, password_hash, role)

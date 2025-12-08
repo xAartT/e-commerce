@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   email VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE users (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   seller_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   name VARCHAR(255) NOT NULL,
@@ -23,14 +23,14 @@ CREATE TABLE products (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE favorites (
+CREATE TABLE IF NOT EXISTS favorites (
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
   product_id UUID REFERENCES products(id) ON DELETE CASCADE,
   created_at TIMESTAMP DEFAULT NOW(),
   PRIMARY KEY (user_id, product_id)
 );
 
-CREATE TABLE cart_items (
+CREATE TABLE IF NOT EXISTS cart_items (
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
   product_id UUID REFERENCES products(id) ON DELETE CASCADE,
   quantity INTEGER NOT NULL DEFAULT 1 CHECK (quantity > 0),
@@ -39,7 +39,7 @@ CREATE TABLE cart_items (
   PRIMARY KEY (user_id, product_id)
 );
 
-CREATE TABLE orders (
+CREATE TABLE IF NOT EXISTS orders (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID NOT NULL REFERENCES users(id),
   total DECIMAL(10,2) NOT NULL CHECK (total >= 0),
@@ -47,7 +47,7 @@ CREATE TABLE orders (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE order_items (
+CREATE TABLE IF NOT EXISTS order_items (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
   product_id UUID NOT NULL REFERENCES products(id),
@@ -58,16 +58,16 @@ CREATE TABLE order_items (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE INDEX idx_products_seller ON products(seller_id);
-CREATE INDEX idx_products_visible ON products(is_visible) WHERE is_visible = true;
-CREATE INDEX idx_products_published ON products(published_at DESC);
-CREATE INDEX idx_products_name ON products(name);
-CREATE INDEX idx_orders_user ON orders(user_id);
-CREATE INDEX idx_orders_created ON orders(created_at DESC);
-CREATE INDEX idx_order_items_seller ON order_items(seller_id);
-CREATE INDEX idx_order_items_order ON order_items(order_id);
-CREATE INDEX idx_cart_items_user ON cart_items(user_id);
-CREATE INDEX idx_favorites_user ON favorites(user_id);
+CREATE INDEX IF NOT EXISTS idx_products_seller ON products(seller_id);
+CREATE INDEX IF NOT EXISTS idx_products_visible ON products(is_visible) WHERE is_visible = true;
+CREATE INDEX IF NOT EXISTS idx_products_published ON products(published_at DESC);
+CREATE INDEX IF NOT EXISTS idx_products_name ON products(name);
+CREATE INDEX IF NOT EXISTS idx_orders_user ON orders(user_id);
+CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_order_items_seller ON order_items(seller_id);
+CREATE INDEX IF NOT EXISTS idx_order_items_order ON order_items(order_id);
+CREATE INDEX IF NOT EXISTS idx_cart_items_user ON cart_items(user_id);
+CREATE INDEX IF NOT EXISTS idx_favorites_user ON favorites(user_id);
 
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -77,11 +77,11 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
-CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
+CREATE TRIGGER IF NOT EXISTS update_users_updated_at BEFORE UPDATE ON users
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER update_products_updated_at BEFORE UPDATE ON products
+CREATE TRIGGER IF NOT EXISTS update_products_updated_at BEFORE UPDATE ON products
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER update_cart_items_updated_at BEFORE UPDATE ON cart_items
+CREATE TRIGGER IF NOT EXISTS update_cart_items_updated_at BEFORE UPDATE ON cart_items
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

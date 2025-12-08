@@ -1,4 +1,3 @@
-// src/app/cart/page.js
 'use client';
 
 import { useState, useEffect } from 'react';
