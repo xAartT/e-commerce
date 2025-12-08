@@ -386,6 +386,40 @@ ecommerce-backend/
 - Ao deletar conta de cliente, histórico de compras é mantido
 - Upload de CSV processa produtos em lote de forma eficiente
 
+## 🖥️ Frontend
+
+Este é o frontend do projeto de e-commerce desenvolvido em **Next.js**, focado em performance, experiência do usuário e uma identidade visual que remete a **dinheiro, valor e luxo**.
+
+## Identidade Visual
+
+A paleta de cores principal utiliza tons de:
+
+- **Verde** → associado a **dinheiro, prosperidade, crescimento e confiança**.  
+  É uma cor amplamente usada em produtos financeiros e transmite estabilidade e credibilidade ao usuário.
+
+- **Branco** → utilizado para reforçar **luxo, simplicidade, elegância e sofisticação**.  
+  Ajuda a criar contraste com o verde e realça o caráter premium da aplicação.
+
+Essa combinação foi escolhida para entregar uma experiência que remete a:
+- Exclusividade  
+- Segurança  
+- Alto valor agregado  
+- Limpeza visual  
+- Navegação intuitiva
+
+## Tecnologias Utilizadas
+
+- **Next.js 14**
+- **React 18**
+- **TypeScript**
+- **TailwindCSS**
+
+## 🚀 Deploy
+
+- O deploy dessa aplicação foi feito a partir da plataforma Render
+- Foi criado 3 enviroments sendo eles: web-api, front-end e database
+- É possível estar acessando o site em produção através da URL: **https://e-commerce-frontend-n1p4.onrender.com**
+
 ## 🤝 Contribuindo
 
 1. Fork o projeto

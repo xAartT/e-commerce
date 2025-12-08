@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE IF NOT EXISTS IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   email VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
@@ -60,10 +60,10 @@ CREATE TABLE IF NOT EXISTS order_items (
 
 CREATE INDEX IF NOT EXISTS idx_products_seller ON products(seller_id);
 CREATE INDEX IF NOT EXISTS idx_products_visible ON products(is_visible) WHERE is_visible = true;
-CREATE INDEX IF NOT EXISTS idx_products_published ON products(published_at DESC);
+CREATE INDEX IF NOT EXISTS idx_products_published ON products(published_at);
 CREATE INDEX IF NOT EXISTS idx_products_name ON products(name);
 CREATE INDEX IF NOT EXISTS idx_orders_user ON orders(user_id);
-CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_orders_created ON orders(created_at);
 CREATE INDEX IF NOT EXISTS idx_order_items_seller ON order_items(seller_id);
 CREATE INDEX IF NOT EXISTS idx_order_items_order ON order_items(order_id);
 CREATE INDEX IF NOT EXISTS idx_cart_items_user ON cart_items(user_id);
@@ -75,13 +75,28 @@ BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
 END;
-$$ language 'plpgsql';
+$$ LANGUAGE plpgsql;
 
-CREATE TRIGGER IF NOT EXISTS update_users_updated_at BEFORE UPDATE ON users
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_users_updated_at') THEN
+    CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
+      FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+  END IF;
+END$$;
 
-CREATE TRIGGER IF NOT EXISTS update_products_updated_at BEFORE UPDATE ON products
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_products_updated_at') THEN
+    CREATE TRIGGER update_products_updated_at BEFORE UPDATE ON products
+      FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+  END IF;
+END$$;
 
-CREATE TRIGGER IF NOT EXISTS update_cart_items_updated_at BEFORE UPDATE ON cart_items
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = 'update_cart_items_updated_at') THEN
+    CREATE TRIGGER update_cart_items_updated_at BEFORE UPDATE ON cart_items
+      FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+  END IF;
+END$$;
