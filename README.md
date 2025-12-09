@@ -22,7 +22,6 @@ API RESTful para aplicação de e-commerce com autenticação, gerenciamento de 
 
 ```bash
 git clone <repo>
-cd ecommerce-backend
 ```
 
 ### 2. Instale as dependências
@@ -330,10 +329,10 @@ Authorization: Bearer {token}
 ecommerce-backend/
 ├── src/
 │   ├── config/
-│   │   └── database.js          # Configuração do PostgreSQL
+│   │   └── database.js
 │   ├── middleware/
-│   │   ├── auth.js               # Middlewares de autenticação
-│   │   └── validation.js         # Validações com express-validator
+│   │   ├── auth.js
+│   │   └── validation.js
 │   ├── routes/
 │   │   ├── auth.routes.js
 │   │   ├── products.routes.js
@@ -347,13 +346,13 @@ ecommerce-backend/
 │   │   ├── orders.controller.js
 │   │   └── seller.controller.js
 │   ├── services/
-│   │   └── csv.service.js        # Processamento de CSV
+│   │   └── csv.service.js
 │   ├── utils/
-│   │   └── queries.js            # Queries SQL organizadas
-│   └── index.js                  # Servidor principal
+│   │   └── queries.js
+│   └── index.js
 ├── migrations/
-│   └── schema.sql                # Schema do banco
-├── .env                          # Variáveis de ambiente (não commitar)
+│   └── schema.sql
+├── .env
 ├── .gitignore
 ├── package.json
 └── README.md
@@ -411,7 +410,6 @@ Essa combinação foi escolhida para entregar uma experiência que remete a:
 
 - **Next.js 14**
 - **React 18**
-- **TypeScript**
 - **TailwindCSS**
 
 ## 🚀 Deploy
